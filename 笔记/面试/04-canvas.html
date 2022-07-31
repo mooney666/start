@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #canvas {
+        display: block;
+        width: 500px;
+        height: 500px;
+        border: 1px solid red;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 在低版本浏览器不兼容，需要提示用户（ie9及以上） -->
+    <canvas id="canvas"
+      >您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas
+    >
+    <script>
+      function DrawLine(context, [x1, y1, x2, y2] = [], [width, color] = []) {
+        // 开启路径
+        context.beginPath();
+        // 确定起始点
+        context.moveTo(x1, y1);
+        // 确定结束点
+        context.lineTo(x2, y2);
+
+        /* 在着色之前设置颜色和线宽 */
+        context.strokeStyle = color;
+        context.lineWidth = width;
+
+        // 着色
+        context.stroke();
+        // 关闭路径
+        context.closePath();
+      }
+      /** @type {HTMLCanvasElement} */ //声明后有语法提示
+      /* 只能使用原生js操作canvas，jquery不生效 */
+      // 获取画布
+      let canvas = document.getElementById("canvas");
+      //  获取上下文对象
+      let c = canvas.getContext("2d");
+      console.log(c);
+      DrawLine(c, [100, 100, 400, 100], [5, "green"]);
+      DrawLine(c, [0, 50, 100, 50], [1, "red"]);
+    </script>
+  </body>
+</html>

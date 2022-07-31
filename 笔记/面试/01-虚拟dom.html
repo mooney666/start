@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul></ul>
+
+    <script>
+      // createDocumentFragment
+      // requestAnimationFrame
+
+      // 百万条数据
+      let total = 1000000;
+      // 单次插入 可自定义
+      let once = 20;
+      // 需要插入的次数 向上取整
+      let loopCount = Math.ceil(total / once);
+      // 当前渲染次数
+      let countRender = 0;
+
+      function render() {
+        // 需要插入的目标对象
+        const targetElement = document.querySelector("ul");
+        // 文档因为存在片段于内存中，并不在DOM树中，将所以子元素插入到文档片段时不会引起页面回流（对元素位置和几何上的计算）。因此，使用文档片段通常会带来更好的性能。
+        // 创建一个虚拟Dom节点 插入真实文档之前不会触发dom渲染、回流等操作
+        // 因此能够很大程度减少dom操作所带来的的性能损耗
+        const fragment = document.createDocumentFragment();
+
+        // 对虚拟节点插入dom节点，也不会触发真是dom操作，同上
+        for (let i = 0; i < once; i++) {
+          // 搞个节点
+          const li = document.createElement("li");
+          // 给li搞点内容
+          li.innerHTML = Math.random();
+          // 插入到虚拟节点
+          fragment.appendChild(li);
+        }
+        // 插入到真实节点的时候，只会把虚拟fragment下的子孙节点插入
+        targetElement.appendChild(fragment);
+        // 渲染次数加1，控制递归的次数
+        countRender++;
+        // // 递归调用
+        if (countRender < loopCount) {
+          // window.requestAnimationFrame() 告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。
+          // 回调函数执行次数通常是每秒60次，但在大多数遵循W3C建议的浏览器中，回调函数执行次数通常与浏览器屏幕刷新次数相匹配。
+          // 能够把每次dom的操作汇总在下一次重绘之前更新动画帧
+          // 因此在浏览器单线程的机制下，能够无卡顿的加载，百万级列表
+          window.requestAnimationFrame(render);
+        }
+      }
+
+      // 执行渲染
+      render();
+    </script>
+  </body>
+</html>

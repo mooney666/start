@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /*
+        1. yield表达式可以暂停函数执行，next方法用于恢复函数执行，这使得Generator函数非常适合将异步任务同步化
+        2. Generator并不是为异步而设计出来的，它还有其他功能（对象迭代、控制输出、部署Interator接口...）
+        3. Generator、async需要与promise对象搭配处理异步情况
+        4. async实质是Generator的语法糖，相当于会自动执行Generator函数
+      */
+      function* gen() {
+        // some code
+      }
+      var g = gen();
+      console.log(g[Symbol.iterator](), g);
+      console.log(g[Symbol.iterator]() === g); // true
+
+      function* helloWorldGenerator() {
+        yield function (s) {
+          return s + 2;
+        };
+        yield "world";
+        return "ending";
+      }
+      var hw = helloWorldGenerator();
+      console.log(hw.next().value(3));
+      console.log(hw.next());
+      console.log(hw.next());
+
+      // 参数就会被当作上一个yield表达式的返回值
+      function* foo(x) {
+        var y = 2 * (yield x + 1);
+        var z = yield y / 3;
+        return x + y + z;
+      }
+      var a = foo(5);
+      a.next(); // Object{value:6, done:false}
+      a.next(); // Object{value:NaN, done:false}
+      a.next(); // Object{value:NaN, done:true}
+      var b = foo(5);
+      b.next(); // { value:6, done:false }
+      b.next(12); // { value:8, done:false }
+      b.next(13); // { value:42, done:true }
+
+      function* foo() {
+        yield 1;
+        yield 2;
+        yield 3;
+        yield 4;
+        yield 5;
+        return 6;
+      }
+      // 迭代器遍历获取每一个 yield 表达式的返回值
+      for (let v of foo()) {
+        console.log(v);
+      }
+
+      // 原生对象没有遍历接口，通过Generator函数为它加上这个接口，就能使用for...of进行遍历了
+      function* objectEntries(obj) {
+        let propKeys = Reflect.ownKeys(obj);
+
+        for (let propKey of propKeys) {
+          yield [propKey, obj[propKey]];
+        }
+      }
+      let jane = { first: "Jane", last: "Doe" };
+      for (let [key, value] of objectEntries(jane)) {
+        console.log(`${key}: ${value}`);
+      }
+    </script>
+
+    <script>
+      // function testable(isTestable) {
+      //   return function (target) {
+      //     target.isTestable = isTestable;
+      //   };
+      // }
+
+      // @testable(true)
+      // class MyTestableClass {}
+      // console.log(MyTestableClass.isTestable); // true
+
+      // @testable(false)
+      // class MyClass {}
+      // console.log(MyClass.isTestable); // false
+    </script>
+
+    <script>
+      let val = [...new Array(10)]; 
+      val.forEach((o, i) => (val[i] = ++i));
+
+      console.log(val, val?.constructor, Array);
+      console.log(val?.constructor === Array);
+    </script>
+  </body>
+</html>

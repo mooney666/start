@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    防抖：<input type="text" id="i1" /><br />
+    节流：<input type="text" id="i2" />
+    <div style="height: 3000px"></div>
+    <script>
+      let input1 = document.getElementById("i1");
+      let input2 = document.getElementById("i2");
+      input1.oninput = debounce((e) => {
+        console.log(e.target.value);
+      }, 500);
+      input2.oninput = throttle((e) => {
+        console.log(e.target.value);
+      }, 500);
+
+      // 防抖 只执行最后一次
+      function debounce(fn, delay) {
+        let timer = null;
+        return function (e) {
+          if (timer !== null) {
+            clearTimeout(timer);
+          }
+          timer = setTimeout(() => {
+            // fn.call(this);
+            fn(e);
+          }, delay);
+        };
+      }
+      // 节流 控制执行次数
+      window.onscroll = throttle1(function () {
+        console.log(this);
+      }, 500);
+      function throttle1(fn, delay) {
+        let flag = true;
+        return function () {
+          if (flag) {
+            setTimeout(() => {
+              fn.call(this);
+              flag = true;
+            }, delay);
+          }
+          flag = false;
+        };
+      }
+
+      function throttle(fn, delay) {
+        // 记录开始时间
+        let beginTime = Date.now();
+        return (e) => {
+          // 这个返回的函数，最终绑定给了search.oninput事件了。
+          // 随着用户的输入，这个返回的函数不断的被调用，此时可以获取最新的时间戳。
+          let nowTime = Date.now();
+          if (nowTime - beginTime > delay) {
+            fn(e);
+            beginTime = nowTime; // 更新起始时间，否则nowTime - beginTime > timer这个条件一直成立。
+          }
+        };
+      }
+    </script>
+  </body>
+</html>

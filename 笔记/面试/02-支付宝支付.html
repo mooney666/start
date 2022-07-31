@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="pay">支付</button>
+    <button id="search">查询订单</button>
+    <script src="./tools/axios.js"></script>
+    <script>
+      let bt1 = document.querySelector("#pay");
+      let bt2 = document.querySelector("#search");
+
+      const payEvent = () => {
+        let orderId = Date.now() + Math.floor(Math.random() * 100);
+        localStorage.setItem("order", orderId);
+        axios({
+          method: "post",
+          url: "http://localhost:3000/api/pcpay",
+          data: {
+            orderId, // 商户订单号，必须保证唯一
+          },
+        })
+          .then(function (res) {
+            console.log("res = ", res.data);
+            window.open(res.data.result, "_self"); // 打开支付宝官方接口返回的支付界面
+          })
+          .catch(function (err) {
+            console.log("err: ", err);
+          });
+      };
+      const queryEvent = () => {
+        let orderId = localStorage.getItem("order");
+        console.log("---", orderId);
+        axios({
+          method: "get",
+          url: "http://localhost:3000/query",
+          params: {
+            orderId, // 商户订单号
+          },
+        }).then(function (res) {
+          console.log(res.data);
+        });
+      };
+
+      bt1.addEventListener("click", payEvent);
+      bt2.addEventListener("click", queryEvent);
+    </script>
+  </body>
+</html>
