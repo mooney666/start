@@ -995,12 +995,12 @@ function Index(){
 
 useContext 可以帮助我们跨越组件层级直接传递变量，实现共享
 
-> - 1. 第一步父组件使用 React.createContext() 创建 Context 对象：
->      `const myContext = React.createContext(null);`
-> - 2. 使用 Context 对象.Provider 包裹子组件，使用 value 属性传值：
->      `<myContext.Provider value={{ setNum, num }}> <Child></Child> </myContext.Provider>`
-> - 3. 子组件使用 useContext 获取传入的值：
->      `const { setNum, num } = useContext(myContext);`
+> - 1.第一步父组件使用 React.createContext() 创建 Context 对象：
+>   `const myContext = React.createContext(null);`
+> - 2.使用 Context 对象.Provider 包裹子组件，使用 value 属性传值：
+>   `<myContext.Provider value={{ setNum, num }}> <Child></Child> </myContext.Provider>`
+> - 3.子组件使用 useContext 获取传入的值：
+>   `const { setNum, num } = useContext(myContext);`
 
 ### 7.Hooks 中的组件渲染优化相关
 
@@ -1017,6 +1017,8 @@ useContext 可以帮助我们跨越组件层级直接传递变量，实现共享
 
 ### 8.useMemo 的作用。
 
+> - 它的第一个参数是函数，这个函数的返回值就是 useMemo() 要缓存的结果，一旦结果被缓存，后续组件中有连续使用这个结果的时候，直接读取缓存的值，不会重新计算。
+
 ### 9.useRef 的作用。
 
 > - (1)用于操作 DOM。
@@ -1024,17 +1026,169 @@ useContext 可以帮助我们跨越组件层级直接传递变量，实现共享
 
 ### 10.useReducer 的作用。
 
+> - 以 redux 工作流的形式，来维护当前组件的数据声明及修改功能。是 useState 的替代方案。
+
 ### 11.是否使用过 useReducer 搭配 useContext 来自己封装一个类似于 Redux 的公共状态管理的工具。
+
+1.使用 createContext 创建 context，其中初始化了 state 的类型 和 actions 的种类。
+
+```
+export const initState = {
+  color: "blue"
+};
+
+export const ColorContext = createContext({
+  state: initState,
+  actions: {
+    updateColor: (color: string): void => {}
+  }
+});
+```
+
+2.创建 reducer 去处理不同类型的 action。
+
+```
+export enum ColorActionTypes {
+  UPDATE_COLOR = "UPDATE_COLOR"
+}
+
+export const reducer = (state, action) => {
+  switch (action.type) {
+    case ColorActionTypes.UPDATE_COLOR:
+      return {
+        ...state,
+        color: action.color
+      };
+    default:
+      return state;
+  }
+};
+```
+
+3.构建一个高阶的 Provider 组件，使用 useReducer 去构建初始状态并获取到 dispatch 函数，使用 dispatch 函数去发送不同的 action 到 reducer 对状态进行自动处理。
+
+```
+import { FC, useReducer } from "react";
+
+import { ColorContext, reducer, initState, ColorActionTypes } from "./utils";
+
+const ColorProvider: FC = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initState);
+  const updateColor = (color: string) =>
+    dispatch({
+      type: ColorActionTypes.UPDATE_COLOR,
+      color
+    });
+  const actions = {
+    updateColor
+  };
+  return (
+    <ColorContext.Provider value={{ state, actions }}>
+      {children}
+    </ColorContext.Provider>
+  );
+};
+
+export default ColorProvider;
+```
+
+4.自定义一个 hook，里面使用 useContext 获取到 state 和 actions，根据场景抛出某些 state 和 某些 actions。
+
+```
+export const useColorContext = () => {
+  const { state, actions } = useContext(ColorContext);
+  const updateColor = (color) => actions.updateColor(color);
+  return {
+    color: state.color,
+    updateColor
+  };
+};
+```
+
+5.在项目主入口文件使用高阶的 Provider 组件进行包裹，另外在需要使用 state 和 actions 的地方调用自定义的 hook 即可。
+
+```
+export default function App() {
+  return (
+    <div className="App">
+      <ColorProvider>
+        <Text />
+        <Button />
+      </ColorProvider>
+    </div>
+  );
+}
+```
+
+Button 组件导入 useColorContext 使用 updateColor action 去更新状态
+
+```
+import React from "react";
+
+import { useColorContext } from "./utils";
+
+const Button = (props) => {
+  const { updateColor } = useColorContext();
+  return (
+    <div>
+      <button
+        style={{ color: "red" }}
+        onClick={() => {
+          updateColor("red");
+        }}
+      >
+        Red
+      </button>
+      <button
+        style={{ color: "blue" }}
+        onClick={() => {
+          updateColor("blue");
+        }}
+      >
+        Blue
+      </button>
+    </div>
+  );
+};
+
+export default Button;
+```
+
+Text 组件导入 useColorContext, 使用 color 状态
+
+```
+import React from "react";
+import { useColorContext } from "./utils";
+
+const Text = (props) => {
+  const { color } = useColorContext();
+  return <div style={{ color: color }}>字体颜色为：{color}</div>;
+};
+
+export default Text;
+```
 
 ### 12.useImperative 的作用。
 
+> - 搭配 forwardRef，可以实现子组件向父组件暴漏方法和属性，让父组件可以直接使用子组件的属性和方法。
+
 ### 13.react 路由中都提供了哪些 hooks 的用法。各自的作用是什么。如何使用。
 
+> - useNavigate：可以重定向
+> - useLocation：获取 location 对象
+> - useSearchParams：设置 url 中的查询参数
+> - useParams：获取动态路由参数值
+
 ### 14.redux 中提供了哪些 hooks 的用法。各自的作用是什么。如何使用。
+
+> - useSelector()：从 Redux 存储状态中提取数据
+> - useDispatch()：从 Redux 存储中返回对函数的引用，使用它来调度操作
 
 ## 四、扩展
 
 ### 1.面试官：为什么说 Vue 的响应式更新比 React 快？（原理深度解析） | 码农家园 (codenong.com)
+
+[](https://www.codenong.com/j5e854a5e51882573954/)
 
 ### 2.前端页面渲染 100000 条数据如何进行优化？ - 知乎 (zhihu.com)
 
