@@ -960,15 +960,30 @@ function Index(){
 
 ③ 当使用 useState 返回的函数修改引用数据类型时，如何保证页面渲染？
 
+> - 使用展开运算符来合并更新对象
+> - JSON.parse(JSON.stringify(‘引用类型变量’ )) 进行数据的深拷贝
+
 ④ 当使用 useState 返回的函数修改基本数据类型时，如果值相同，页面是否会重新渲染？
+
+> - 不会重新渲染，但是如果是事件中修改了值，前后不一样， 事件执行两次以上会执行 render 两次 。
 
 ⑤ 如何获取最新修改后的数据。
 
+> - 作为参数传递出去
+> - 使用 useEffect() 监听 state 变化
+> - 自定义 hook（回调函数）
+
 ### 2.useEffect 如何保证首次加载组件时执行，后续加载组件不执行回调函数。
+
+> - 添加空依赖项
 
 ### 3.useEffect 如何实现组件数据更新时的调用。
 
+> - 将需要更新的数据添加到依赖项中
+
 ### 4.useEffect 如何实现组件卸载时的清理工作。
+
+> - 添加 return 方法，并添加空依赖项
 
 ### 5.如果 useEffect 内部使用了外部的函数或者数据 state，但是没有在依赖项里做出设置，会出现什么情况。如何解决。
 
@@ -977,6 +992,15 @@ function Index(){
 > - ③ 如果公共函数确实需要放在 useEffect 外部，那此时在 useEffect 内部就会形成闭包环境，控制台会发出警告，让去设置依赖项，但是不能设置依赖项，可能会造成外部函数死循环调用，可以使用 useCallback 对公共函数进行缓存，将缓存后的函数放在依赖项中，从而解决警告，又可以避免外部函数形成死循环调用。
 
 ### 6.说一下 useContext 的作用，和工作方式。
+
+useContext 可以帮助我们跨越组件层级直接传递变量，实现共享
+
+> - 1. 第一步父组件使用 React.createContext() 创建 Context 对象：
+>      `const myContext = React.createContext(null);`
+> - 2. 使用 Context 对象.Provider 包裹子组件，使用 value 属性传值：
+>      `<myContext.Provider value={{ setNum, num }}> <Child></Child> </myContext.Provider>`
+> - 3. 子组件使用 useContext 获取传入的值：
+>      `const { setNum, num } = useContext(myContext);`
 
 ### 7.Hooks 中的组件渲染优化相关
 
