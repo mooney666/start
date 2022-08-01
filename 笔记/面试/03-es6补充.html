@@ -91,12 +91,107 @@
       // console.log(MyClass.isTestable); // false
     </script>
 
+    <!-- ?.constructor -->
     <script>
-      let val = [...new Array(10)]; 
+      let val = [...new Array(10)];
       val.forEach((o, i) => (val[i] = ++i));
 
       console.log(val, val?.constructor, Array);
       console.log(val?.constructor === Array);
+    </script>
+
+    <!-- reduce 函数 -->
+    <script>
+      (function () {
+        let a = [11, 2, 32, 4, 50];
+        a = a.reduce((total, curValue) => {
+          console.log(total, curValue);
+          return total + curValue;
+        }, 60);
+        console.log(a);
+      })();
+    </script>
+
+    <!-- 扁平化 -->
+    <script>
+      let bbb = 232;
+      (function (i) {
+        let a = [1, [2, [3, [4]]]];
+        let [a1, ...a2] = a;
+        console.log("剩余运算返回数组", a1, a2);
+        console.log(b);
+        function fn(arr) {
+          while (arr.some((i) => Array.isArray(i))) {
+            console.log("扩展运算", arr, ...arr);
+            arr = [].concat(...arr);
+          }
+          return arr;
+        }
+        console.log(fn(a));
+        console.log(i);
+        console.log("---------------------------------");
+      })(bbb);
+      (function () {
+        let a = [1, [2, [3, [4]]]];
+        console.log("flat 方法 只针对数组", a.flat(Infinity));
+
+        let b = [
+          {
+            name: "小红",
+            value: { a: 1, b: { m: 1, n: [1, 2, { k: 1, v: 2 }] } },
+          },
+        ];
+        function objFun(obj) {
+          var res = {}; //定义一个对象，用来存储结果
+          function isObj(obj) {
+            //定义一个函数，用来对obj进行遍历
+            for (var key in obj) {
+              if (
+                Object.prototype.toString.call(obj[key]) == "[object Object]"
+              ) {
+                //如果值为对象，则进行递归
+                isObj(obj[key]);
+              } else {
+                //不为对象则将值添加给res
+                res[key] = obj[key];
+              }
+            }
+          }
+          isObj(obj); //调用函数
+          return res; //返回结果
+        }
+        console.log("对象扁平化", objFun(b));
+
+        let obj = {
+          a: { d: 1 },
+          d: 2,
+          e: [1, 2, { m: 1, n: 2, l: [1, { t: 1 }] }],
+        };
+        function flatten(data) {
+          var result = {};
+          function recurse(cur, prop) {
+            // 如果输入进来的是不是对象，就将其放在数组中，返回
+            if (Object(cur) !== cur) {
+              result[prop] = cur;
+              // 如果输入进来的是数组，长度不为0就递归数组，得出结果
+            } else if (Array.isArray(cur)) {
+              for (var i = 0, len = cur.length; i < len; i++)
+                recurse(cur[i], prop + "[" + i + "]");
+              if (len == 0) result[prop] = [];
+            } else {
+              let isEmpty = true;
+              for (let p in cur) {
+                isEmpty = false;
+                recurse(cur[p], prop ? prop + "." + p : p);
+              }
+              if (isEmpty && prop) result[prop] = {};
+            }
+          }
+          recurse(data, "");
+          return result;
+        }
+        console.log("数组及对象 扁平化", flatten(obj));
+      })();
     </script>
   </body>
 </html>
