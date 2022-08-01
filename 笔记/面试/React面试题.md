@@ -2,13 +2,20 @@
 
 ### 1, React 中有哪些生命周期函数?
 
-> - componentWillMount() 渲染前 (不建议使用)
-> - componentDidMount() 渲染后
-> - componentWillReceiveProps() 接收 props 传值时
-> - shouldComponentUpdate()控制组件是否更新
-> - componentWillUpdate() 组件将要更新
+> - static getDerivedStateFromProps(props,state) 渲染前
+> - render 必须 return jsx|string|number|null，不会直接于浏览器交互：不要操作 DOM ｜和数据
+> - componentDidMount 挂载完成后执行
+> - getSnapshortBeforeUpdate(prevProps,prevState)
+
+```
+组件能在发生更改之前从DOM中捕获一些信息(dom渲染前的状态)
+返回 值｜null 会给componentDidUpdate
+prevProps、prevState 更新前this.props、this.state更新后
+```
+
+> - shouldComponentUpdate() 控制组件是否更新
 > - componentDidUpdate() 组件已经更新
-> - componentWillUnmount() 组件将要移除
+> - componentWillUnmont 组件即将卸载执行
 
 ### 2, React 组件中的 state 和 props 有何区别?
 
