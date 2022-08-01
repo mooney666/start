@@ -165,6 +165,12 @@ StrictMode 严格模式是一个用来突出显示应用程序中潜在问题的
 
 diff 算法就是进行虚拟节点对比，并返回一个 patch 对象，用来存储两个节点不同的地方，然后用 patch 记录的不同点去局部更新 DOM, 相当于给真实 DOM 打补丁更新
 
+### 29.HashRouter 和 BrowserRouter 的区别。
+
+> - 1.HashRouter 在路径中包含了#，相当于 HTML 的锚点定位。（# 符号的英文叫 hash，所以叫 HashRouter）BrowserRouter 使用的是 HTML5 的新特性 History，没有 HashRouter(锚点定位)那样通用，低版本浏览器可能不支持。
+
+> - 2.BrowserRouter 进行组件跳转时可以传递任意参数实现组件间的通信；HashRouter 不能(除非手动拼接 URL 字符串)，因此一般配合 Redux 使用，实现组件间的数据通信。
+
 ## 二、基础二
 
 ### 1. React 渲染 DOM 的整体流程。从初始加载和后续更新的两个角度进行阐述。
