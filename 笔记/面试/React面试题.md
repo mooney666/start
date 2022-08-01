@@ -1186,9 +1186,9 @@ export default Text;
 
 ## 四、扩展
 
-### 1.面试官：为什么说 Vue 的响应式更新比 React 快？（原理深度解析） | 码农家园 (codenong.com)
+### 1.面试官：为什么说 Vue 的响应式更新比 React 快？
 
-[](https://www.codenong.com/j5e854a5e51882573954/)
+[（原理深度解析） | 码农家园 (codenong.com)](https://www.codenong.com/j5e854a5e51882573954/)
 
 ### 2.前端页面渲染 100000 条数据如何进行优化？ - 知乎 (zhihu.com)
 
