@@ -162,3 +162,9 @@ const p1 = new Promise((resolve, reject) => {
 });
 
 p1.then().then((res) => console.log(res)); // 输出 2
+
+let a = { name: "sfs", sex: 1, desc: { n: 1, keuy: { m: 1, n: 2 } } };
+
+let b = { ...a };
+b.sex = 0;
+console.log(a, b);
