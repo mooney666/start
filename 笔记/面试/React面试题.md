@@ -13,7 +13,7 @@
 prevProps、prevState 更新前this.props、this.state更新后
 ```
 
-> - shouldComponentUpdate() 控制组件是否更新
+> - shouldComponentUpdate(nextProps,nextState) 控制组件是否更新
 > - componentDidUpdate() 组件已经更新
 > - componentWillUnmont 组件即将卸载执行
 
