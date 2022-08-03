@@ -6,5 +6,11 @@
     "express": "^4.18.1",
     "nodemon": "^2.0.19",
     "require.js": "^1.0.0"
+  },
+  "scripts": {
+    "test": "promises-aplus-tests 06-手写实现promise.js"
+  },
+  "devDependencies": {
+    "promises-aplus-tests": "^2.1.2"
   }
 }
