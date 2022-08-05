@@ -151,6 +151,26 @@ class MyPromise {
   }
 }
 
+function rand(m, n) {
+  return Math.ceil(Math.random() * (n + 1 - m));
+}
+
+let a = new MyPromise((resolve, reject) => {
+  setTimeout(() => {
+    let num = rand(1, 100);
+    if (num <= 50) resolve(num);
+    else reject(num);
+  }, 1000);
+});
+a.then(
+  (res) => {
+    console.log("a res 成功", res);
+  },
+  (err) => {
+    console.log("a err 失败", err);
+  }
+);
+
 MyPromise.defer = MyPromise.deferred = function () {
   let dfd = {};
   dfd.promise = new MyPromise((resolve, reject) => {

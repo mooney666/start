@@ -35,5 +35,37 @@
       <div class="son" id="nth3">3</div>
     </div>
     <div class="brother"></div>
+    <script src="./MyPromise.js"></script>
+    <script>
+      let a = new MyPromise((resolve, reject) => {
+        setTimeout(() => {
+          // resolve("ok1");
+          // reject("no1");
+          // throw "no1";
+        }, 1000);
+      });
+      let b = new MyPromise((resolve, reject) => {
+        setTimeout(() => {
+          // resolve("ok2");
+          reject("no2");
+          // throw "no2";
+        }, 1000);
+      });
+      let c = new MyPromise((resolve, reject) => {
+        setTimeout(() => {
+          // resolve("ok3");
+          reject("no3");
+          throw "no3";
+        }, 1000);
+      });
+
+      MyPromise.all([a, b, c])
+        .then(function (values) {
+          console.log(values); //[1, 2, 3]
+        })
+        .catch(function (values) {
+          console.log(values);
+        });
+    </script>
   </body>
 </html>

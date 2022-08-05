@@ -8,7 +8,7 @@
     "require.js": "^1.0.0"
   },
   "scripts": {
-    "test": "promises-aplus-tests 06-手写实现promise.js"
+    "test": "promises-aplus-tests MyPromise.js"
   },
   "devDependencies": {
     "promises-aplus-tests": "^2.1.2"
