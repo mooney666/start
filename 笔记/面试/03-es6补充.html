@@ -7,6 +7,7 @@
     <title>Document</title>
   </head>
   <body>
+    <!-- yield表达式 -->
     <script>
       /*
         1. yield表达式可以暂停函数执行，next方法用于恢复函数执行，这使得Generator函数非常适合将异步任务同步化
@@ -191,6 +192,52 @@
           return result;
         }
         console.log("数组及对象 扁平化", flatten(obj));
+      })();
+    </script>
+
+    <!-- 深拷贝 -->
+    <script>
+      (function () {
+        // 深拷贝拷贝多层, 每一级别的数据都会拷贝.
+        // 封装函数
+        function deepCopy(target, obj) {
+          for (let k in obj) {
+            // console.log(k);
+            // 1. 获取了属性值
+            let item = obj[k];
+
+            // 2. 判断数据类型
+            if (item instanceof Array) {
+              // 数组
+              target[k] = [];
+              // target.color = ["red", "purple"];
+              deepCopy(target[k], item);
+            } else if (item instanceof Object) {
+              // 对象
+              target[k] = {};
+              // target[msg] = {
+              //   age: 24,
+              // }
+              deepCopy(target[k], item);
+            } else {
+              // 基本数据类型
+              target[k] = item;
+            }
+          }
+        }
+
+        let obj = {
+          id: 1,
+          name: "andy",
+          msg: {
+            age: 24,
+          },
+          color: ["red", "purple", { m: 1, n: 2 }],
+        };
+        let target = {};
+
+        deepCopy(target, obj);
+        console.log(target);
       })();
     </script>
   </body>
