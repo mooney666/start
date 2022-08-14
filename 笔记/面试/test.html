@@ -67,5 +67,51 @@
           console.log(values);
         });
     </script>
+
+    <script>
+      function fn(s) {
+        if (s == null) return true;
+        if (s.length % 2 == 1) return false;
+        let stack = [];
+        for (let i = 0; i < s.length; i++) {
+          if (s.charAt(i) == "(" || s.charAt(i) == "{" || s.charAt(i) == "[") {
+            stack.push(s.charAt(i));
+          } else if (stack.length != 0 && s.charAt(i) == ")") {
+            if (stack.pop() != "(") return false;
+          } else if (stack.length != 0 && s.charAt(i) == "}") {
+            if (stack.pop() != "{") return false;
+          } else if (stack.length != 0 && s.charAt(i) == "]") {
+            if (stack.pop() != "[") return false;
+          } else {
+            return false;
+          }
+        }
+        if (stack.length === 0) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+      console.log(fn("[{[] }]"));
+    </script>
+
+    <script>
+      let arr = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [
+          {
+            fn: function () {
+              console.log("aaa");
+            },
+          },
+        ],
+      ];
+      // let newArr = [...arr];
+      let newArr = JSON.parse(JSON.stringify(arr));
+      newArr[0].push(4);
+      console.log(arr,newArr);
+      newArr[2][0].fn();
+    </script>
   </body>
 </html>

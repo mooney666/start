@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./src/react18.development.js"></script>
+    <script src="./src/react-dom18.development.js"></script>
+    <script src="./src/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+      class Cart extends React.Component {
+        constructor() {
+          super();
+          this.state = {
+            carts: [
+              {
+                id: 100,
+                title: "鞋子",
+                price: 100,
+                checked: false,
+              },
+              {
+                id: 101,
+                title: "帽子",
+                price: 150,
+                checked: false,
+              },
+              {
+                id: 102,
+                title: "拖鞋",
+                price: 80,
+                checked: false,
+              },
+            ],
+            checkedCart: [], // 只保存当前选中的购物车商品，选中哪个购物车了，就把它的id存进来。
+            allcheck: false, // 控制全选复选框是否选中。
+          };
+          this.allcheckRef = React.createRef(); // 全选框
+          this.singlecheckRef = React.createRef(); // 单个复选框
+        }
+        checkEvent(e) {
+          const idx = this.state.checkedCart.indexOf(e.target.value);
+          if (idx === -1) this.state.checkedCart.push(e.target.value);
+          else this.state.checkedCart.splice(idx, 1);
+          const curCount = this.state.checkedCart.length;
+          console.log("当前选中的数量:", curCount);
+          // 用当前选中的数量和购物车总数量对比，相等就全选。
+          if (curCount === this.state.carts.length) {
+            // 让全选选中
+            this.setState(
+              {
+                allcheck: true,
+              },
+              () => {
+                this.allcheckRef.current.checked = this.state.allcheck;
+              }
+            );
+          } else {
+            // 让全选取消选中
+            this.setState(
+              {
+                allcheck: false,
+              },
+              () => {
+                this.allcheckRef.current.checked = this.state.allcheck;
+              }
+            );
+          }
+        }
+        allcheckEvent(e) {
+          console.log(this.singlecheckRef);
+          const curStatus = e.target.checked;
+          if (curStatus) {
+            // 全选
+            this.setState({
+              checkedCart: this.state.carts.map(item => item.id),
+            });
+          } else {
+            // 取消全选
+            this.setState({
+              checkedCart: [],
+            });
+          }
+        }
+        render() {
+          return (
+            <div className="cart">
+              <div className="cartlist">
+                {this.state.carts.map(item => (
+                  <div key={item.id}>
+                    <input
+                      ref={this.singlecheckRef}
+                      type="checkbox"
+                      value={item.id}
+                      onChange={this.checkEvent.bind(this)}
+                    />
+                    <span>
+                      {item.title} - {item.price}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div className="allcheck">
+                <input
+                  type="checkbox"
+                  ref={this.allcheckRef}
+                  onChange={this.allcheckEvent.bind(this)}
+                />
+                全选
+              </div>
+            </div>
+          );
+        }
+      }
+      let root = ReactDOM.createRoot(document.getElementById("app"));
+      root.render(<Cart />);
+    </script>
+  </body>
+</html>

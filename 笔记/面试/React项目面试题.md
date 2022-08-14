@@ -432,3 +432,45 @@ TCP 协议保证数据传输可靠性的方式主要有：校验和、序列号�
 [项目常见问题（根据自身项目）](https://blog.csdn.net/weixin_56299841/article/details/126165637?spm=1001.2014.3001.5502)
 [2022 春招前端最新面试题分享(途牛旅游网)](https://blog.csdn.net/m0_46171043/article/details/124504413)
 [途牛面试（二面）](https://blog.csdn.net/dainandainan1/article/details/77879278?spm=1001.2101.3001.6650.4&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-4-77879278-blog-124504413.pc_relevant_aa&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-4-77879278-blog-124504413.pc_relevant_aa&utm_relevant_index=5)
+
+### 14. git 和 svn 区别。
+
+> - 1.git 是分布式管理，svn 是集中式管理，所用开发节点公用一个服务器节点。
+> - 2.git 按照元数据方式存储，体积小；svn 是按照原始文件存储的，体积较大。
+> - 3.git 的分支操作不会影响其他开发人员，而 svn 会影响。
+
+### 15.从输入一个 URL 地址到浏览器完成渲染的整个过程？
+
+浏览器地址栏输入 URL 并回车
+
+浏览器查找当前 URL 是否存在缓存，并比较缓存是否过期
+
+DNS 解析 URL 对应的 IP
+
+根据 IP 建立 TCP 连接（三次握手）
+
+发送 http 请求
+
+服务器处理请求，浏览器接受 HTTP 响应
+
+浏览器解析并渲染页面
+
+关闭 TCP 连接（四次握手）
+
+### 16.浏览器缓存机制。
+
+浏览器缓存通过 HTTP/HTTPS 实现，存储位置有四种：
+
+> - Service Worker：运行在浏览器背后的独立线程，可以用来实现缓存功能，请求拦截，必须使用 HTTPS 协议来保障安全。
+> - Memory Cache（内存缓存）：当前页面中已经抓取到的资源,例如页面上已经下载的样式、脚本、图片等。
+> - Disk Cache（硬盘缓存）：存储在硬盘中的缓存，读取速度比 Memory Cache 慢，但是存储量更大。
+> - Push Cache（推送缓存）：只在会话（Session）中存在，一旦会话结束就被释放，并且缓存时间也很短暂，
+>   以上缓存全部没有命中就会进行网络请求。
+
+### 17.浏览器渲染机制。
+
+### 18.什么是 restful api？
+
+URL 指定资源，以 HTTP 方法动词（GET,POST,PUT,DELETE)进行不同的操作。用 HTTP STATUS/CODE 定义操作结果。
+
+RESTful API 就是 REST 风格的 API，即 rest 是一种架构风格，跟编程语言无关，跟平台无关，采用 HTTP 做传输协议。

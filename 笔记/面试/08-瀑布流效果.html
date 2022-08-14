@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./src/react18.development.js"></script>
+    <script src="./src/react-dom18.development.js"></script>
+    <script src="./src/babel.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .imgs {
+        display: flex;
+        justify-content: space-between;
+      }
+      .imgs > .column {
+        width: 50%;
+        text-align: center;
+      }
+      .item img {
+        width: 236px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+      // 瀑布流的特点:
+      // 1. 一般瀑布流图片的宽度一样,高度不统一;
+      // 2. 瀑布流图片,后端返回的图片url中最好带上图片的css宽高;方便我们计算哪一列比较低;可以和后端协商;
+      // 3. 如果图片url中没有携带css宽高尺寸,而是接口中返回了图片的真实宽高,此时宽度和高度都不一样,我们可以按照真实宽高等比例缩放图片;
+      class Cart extends React.Component {
+        constructor() {
+          super();
+          this.state = {
+            imgs: [
+              {
+                avt: "https://hbimg.huabanimg.com/9ba79f5185492420c61f54d271d550ebea8ec9f91ad42-RTOdLw_sq75sf/format/webp",
+                author: "UI设计师—周晓烽",
+                target: "APP_双11皮肤",
+                img: "https://hbimg.huabanimg.com/3e43482c320e49046752e0e0917ea14fa2e6375b13e73c-QBoxOP_/fw/480/format/webp?w_h=236x472",
+                img1: "https://i0.hippopx.com/photos/219/841/228/fruit-fruits-vitamins-healthy-preview.jpg",
+                height: 923,
+                width: 828,
+              },
+              {
+                avt: "https://hbimg.huabanimg.com/6059a16cedf9f97e8a5a575d103ab4126a85d9c714ed-jHT1Aw_sq75sf/format/webp",
+                author: "LS山",
+                target: "素材",
+                img: "https://hbimg.huabanimg.com/bed5347494beef22486804ed180ccc660a06c12f12abb1-5bdChZ_/fw/480/format/webp?w_h=236x1788",
+                img1: "https://i0.hippopx.com/photos/219/841/228/fruit-fruits-vitamins-healthy-preview.jpg",
+                height: 1080,
+                width: 1920,
+              },
+              {
+                avt: "https://hbimg.huabanimg.com/202b9d6651c5210732ed65a25ba0b061e597388716acf-YLiTsD_sq75sf/format/webp",
+                author: "恶女格蕾特",
+                target: "D道具图标",
+                img: "https://hbimg.huabanimg.com/546fa86f232b3569eaf7ad6eb42845d41859075c12aeb-U2YdR6_/fw/480/format/webp?w_h=236x212",
+                img1: "https://i0.hippopx.com/photos/219/841/228/fruit-fruits-vitamins-healthy-preview.jpg",
+                height: 1479,
+                width: 1080,
+              },
+              {
+                avt: "https://hbimg.huabanimg.com/d564d04b8e99c6eb0539e0ccdfe00c616a468d761411-kAbJyl_sq75sf/format/webp",
+                author: "救贖Ⅱ",
+                target: "包装",
+                img: "https://hbimg.huabanimg.com/863ad556d244bad4ab2b1dc8336145d45b7abdd42318e7-bM9bHn_/fw/480/format/webp?w_h=236x1680",
+                img1: "https://i0.hippopx.com/photos/219/841/228/fruit-fruits-vitamins-healthy-preview.jpg",
+                height: 698,
+                width: 1240,
+              },
+              {
+                avt: "https://hbimg.huabanimg.com/0fcd4063db13c382732a061ec7e7583a140bd12fbed-ek2LSN_sq75sf/format/webp",
+                author: "✘阿窝喔",
+                target: "居家场景",
+                img: "https://hbimg.huabanimg.com/727247ec735e91113937d8099caa0e4c809d92b5112b7c-MQAXQO_/fw/480/format/webp?w_h=236x334",
+                img1: "https://i0.hippopx.com/photos/219/841/228/fruit-fruits-vitamins-healthy-preview.jpg",
+                height: 800,
+                width: 800,
+              },
+              {
+                avt: "https://hbimg.huabanimg.com/50ddfee531e691867c032ebe0c744e869da8a26f3043-Pn8ziQ_sq75sf/format/webp",
+                author: "老王~",
+                target: "游戏网站web",
+                img: "https://hbimg.huabanimg.com/144364b54b30aa38e53c381fd667761c8be7b8fbf1618-OJOoLE_/fw/480/format/webp?w_h=236x538",
+                img1: "https://i0.hippopx.com/photos/219/841/228/fruit-fruits-vitamins-healthy-preview.jpg",
+                height: 1268,
+                width: 750,
+              },
+              {
+                avt: "https://hbimg.huabanimg.com/c79ee10120c4052f04aed1cb59cfdb44ff7cbca5ea56-eCJZnd_sq75sf/format/webp",
+                author: "渐默",
+                target: "整套",
+                img: "https://hbimg.huabanimg.com/78e014541d8ebe3d5e6c4495ad6d08be205c7262443fc-0Cw2A8_/fw/480/format/webp?w_h=236x420",
+                img1: "https://i0.hippopx.com/photos/219/841/228/fruit-fruits-vitamins-healthy-preview.jpg",
+                height: 5076,
+                width: 2345,
+              },
+              {
+                avt: "https://hbimg.huabanimg.com/dfd22754181695f567613f319a791908b05a24f71107df-7bwcfF_sq75sf/format/webp",
+                author: "ʚ橙子汽水ɞ",
+                target: "模特素材",
+                img: "https://hbimg.huabanimg.com/3faf9a12ce7bc86fca2a2c30074ebc4a2bf1f9b953ee9-P6a4D2_/fw/480/format/webp?w_h=236x299",
+                img1: "https://i0.hippopx.com/photos/219/841/228/fruit-fruits-vitamins-healthy-preview.jpg",
+                height: 663,
+                width: 1180,
+              },
+              {
+                avt: "https://hbimg.huabanimg.com/a0fb60a5b3ebe08b00b51638ec3e2b0a0ba2d0e0408ce-yAPGZh_sq75sf/format/webp",
+                author: "忽而相遇",
+                target: "详情页",
+                img: "https://hbimg.huabanimg.com/56af8b581db3ea9ab8c9fe272fbde91499c3fd0210c264-7zXLs1_/fw/480/format/webp?w_h=236x2465",
+                img1: "https://i0.hippopx.com/photos/219/841/228/fruit-fruits-vitamins-healthy-preview.jpg",
+                height: 1920,
+                width: 1280,
+              },
+              {
+                avt: "https://hbimg.huabanimg.com/ec4e42a6f75f157c1fd3ca06b14663d3a111ade765c1-wX6z0V_sq75sf/format/webp",
+                author: "盛天龙哥",
+                target: "形式感参考",
+                img: "https://hbimg.huabanimg.com/aed0ae696c41a737e033d15f0032225a52c6cdf8141ee-LHUJl6_/fw/480/format/webp?w_h=236x511",
+                img1: "https://i0.hippopx.com/photos/219/841/228/fruit-fruits-vitamins-healthy-preview.jpg",
+                height: 1779,
+                width: 1000,
+              },
+            ],
+            newImages: [
+              {
+                height: 0, // 用于记录当前列的总高度
+                imgs: [], // 这里保存所有第一列的图片对象
+              }, // 放第一列所有的图片
+              {
+                height: 0, // 用于记录当前列的总高度
+                imgs: [], // 这里保存所有第二列的图片对象
+              }, // 放第二列所有的图片
+              // {
+              //   height: 0, // 用于记录当前列的总高度
+              //   imgs: [], // 这里保存所有第三列的图片对象
+              // }, // 放第三列所有的图片
+            ], // 这是新数组,用于保存整理后的图片数据.
+          };
+        }
+        // 封装函数: 从newImages获取高度最低的那一列对象, 用于后续整理原始数据imgs.
+        getMinHeightObj() {
+          const allColumnHeights = this.state.newImages.map(
+            item => item.height
+          ); // 先获取所有列的高度值, 放在数组中
+          // const minHeight = Math.min(200, 100, 30);
+          const minHeight = Math.min(...allColumnHeights); // 从数组中获取高度最低的高度值
+          const idx = allColumnHeights.findIndex(
+            height => height === minHeight
+          ); // 根据这个最低高度, 从newImages中, 获取它所在对象
+          return this.state.newImages[idx]; // 返回这个对象
+        }
+
+        // 整理原始数据imgs的方法, 将imgs中所有的图片对象, 分别保存至第一列和第二列数组中.
+        formatImages() {
+          this.state.imgs.forEach(item => {
+            let minColumnObj = this.getMinHeightObj();
+            minColumnObj.imgs.push(item);
+            // minColumnObj.height += parseInt(
+            //   item.img.split("=")[1].split("x")[1]
+            // );
+            // 根据图片真实宽高, 以及css中的确定宽度, 动态计算图片的css高度.
+            minColumnObj.height += (item.height * 236) / item.width;
+            // 将这个计算出来的css高度, 保存到图片对象上. 否则图片高度自适应了.
+            item.cssHeight = (item.height * 236) / item.width + "px";
+          });
+          this.forceUpdate();
+        }
+        render() {
+          return (
+            <div className="imgs">
+              {this.state.newImages.map((item, i) => (
+                <div className="column" key={i}>
+                  {item.imgs.map((imgObj, j) => (
+                    <div className="item" key={j}>
+                      <img
+                        style={{ height: imgObj.cssHeight }}
+                        src={imgObj.img1}
+                        alt=""
+                      />
+                      <p>{imgObj.author}</p>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          );
+        }
+        componentDidMount() {
+          this.formatImages();
+          console.log(this.state.newImages);
+        }
+      }
+      let root = ReactDOM.createRoot(document.getElementById("app"));
+      root.render(<Cart />);
+    </script>
+  </body>
+</html>
