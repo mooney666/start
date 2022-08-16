@@ -1276,6 +1276,20 @@ Redux 中的 store：
 
 ![推拉流](https://img2020.cnblogs.com/blog/1460021/202106/1460021-20210625150320546-397345546.png)
 
+### 13.React Router v5 和 v6 的比较。
+
+[参考：React Router以及版本6与版本5的区别](https://blog.csdn.net/m0_59129742/article/details/123969030?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-123969030-blog-122785925.pc_relevant_multi_platform_featuressortv2dupreplace&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-123969030-blog-122785925.pc_relevant_multi_platform_featuressortv2dupreplace&utm_relevant_index=1)
+
+> - 1. v6 中 `Switch` 名称变为 Routes。
+> - 2. v6 `<Route>` 不再支持子组件，改为使用 `element` 属性。
+> - 3. v6 中， `exact` 属性不再需要。
+> - 4. v6 中，`Route` 先后顺序不再重要，`React Router` 能够自动找出最优匹配路径。
+> - 5. v6 保留 `Link`， `NavLink`， 但是 `NavLink` 的 `activeClassName` 属性被移除。
+> - 6. v6 移除 `Redirect`组件，改为使用 `Navigate`重定向。
+> - 7. v6 嵌套路由改为相对匹配。
+> - 8. v6 用 `useNavigate` 实现编程式导航，`useHistory` 被移除。
+> - 9. 缺点： v6 目前没有 `Prompt` 组件阻止不期望的导航。
+
 五、Hooks 补充面试题
 
 ### 1.为什么 useState 要使用数组而不是对象？
