@@ -1175,18 +1175,35 @@ const Text = (props) => {
 export default Text;
 ```
 
-### 12.useImperative 的作用。
+### 12.useImperativeHandle 的作用。
 
-> - 搭配 forwardRef，可以实现子组件向父组件暴漏方法和属性，让父组件可以直接使用子组件的属性和方法。
+> - useImperativeHandle 可以让你在使用 ref 时自定义暴露给父组件的实例值。在大多数情况下，应当避免使用 ref 这样的命令式代码。
+> - useImperativeHandle 应当与 forwardRef 一起使用：可以实现子组件向父组件暴露方法和属性，让父组件可以直接使用子组件的属性和方法。
 
-### 13.react 路由中都提供了哪些 hooks 的用法。各自的作用是什么。如何使用。
+### 13.React.forwardRef 是什么？使用场景？
+
+React.forwardRef 会创建一个 React 组件，这个组件能够将其接受的 ref 属性转发到其组件树下的另一个组件中。React.forwardRef 接受渲染函数作为参数。React 将使用 props 和 ref 作为参数来调用此函数。此函数应返回 React 节点（组件）。
+
+使用场景：
+
+> - 转发 refs 到 DOM 组件
+> - 在高阶组件中转发 refs
+
+### 14.useLayoutEffect 是什么？与 useEffect 的区别？
+
+其函数签名与 useEffect 相同，但它会在所有的 DOM 变更之后同步调用 effect。可以使用它来读取 DOM 布局并同步触发重渲染。在浏览器执行绘制之前，useLayoutEffect 内部的更新计划将被同步刷新。
+
+> - useEffect 是异步执行的，而 useLayoutEffect 是同步执行的。
+> - useEffect 的执行时机是浏览器完成渲染之后，而 useLayoutEffect 的执行时机是浏览器把内容真正渲染到界面之前，和 componentDidMount 等价。
+
+### 15.react 路由中都提供了哪些 hooks 的用法。各自的作用是什么。如何使用。
 
 > - useNavigate：可以重定向
 > - useLocation：获取 location 对象
 > - useSearchParams：设置 url 中的查询参数
 > - useParams：获取动态路由参数值
 
-### 14.redux 中提供了哪些 hooks 的用法。各自的作用是什么。如何使用。
+### 16.redux 中提供了哪些 hooks 的用法。各自的作用是什么。如何使用。
 
 > - useSelector()：从 Redux 存储状态中提取数据
 > - useDispatch()：从 Redux 存储中返回对函数的引用，使用它来调度操作
@@ -1252,3 +1269,9 @@ Flux 中的 store：
 Redux 中的 store：
 
 ![Redux 中的 store](https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=130914051,2215190264&fm=173&s=78A4A8525C00961BDA367A10030010EC&w=639&h=305&img.PNG)
+
+### 12.直播推拉流。
+
+[参考网址](https://www.cnblogs.com/yangchin9/p/14930995.html)
+
+![推拉流](https://img2020.cnblogs.com/blog/1460021/202106/1460021-20210625150320546-397345546.png)
