@@ -1278,7 +1278,7 @@ Redux 中的 store：
 
 ### 13.React Router v5 和 v6 的比较。
 
-[参考：React Router以及版本6与版本5的区别](https://blog.csdn.net/m0_59129742/article/details/123969030?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-123969030-blog-122785925.pc_relevant_multi_platform_featuressortv2dupreplace&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-123969030-blog-122785925.pc_relevant_multi_platform_featuressortv2dupreplace&utm_relevant_index=1)
+[参考：React Router 以及版本 6 与版本 5 的区别](https://blog.csdn.net/m0_59129742/article/details/123969030?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-123969030-blog-122785925.pc_relevant_multi_platform_featuressortv2dupreplace&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-123969030-blog-122785925.pc_relevant_multi_platform_featuressortv2dupreplace&utm_relevant_index=1)
 
 > - 1. v6 中 `Switch` 名称变为 Routes。
 > - 2. v6 `<Route>` 不再支持子组件，改为使用 `element` 属性。
@@ -1289,6 +1289,20 @@ Redux 中的 store：
 > - 7. v6 嵌套路由改为相对匹配。
 > - 8. v6 用 `useNavigate` 实现编程式导航，`useHistory` 被移除。
 > - 9. 缺点： v6 目前没有 `Prompt` 组件阻止不期望的导航。
+
+### 14.js 中的副作用？
+
+> - 副作用让函数变得不纯。如果依赖于外部状态就无法保证输出相同，就会带来副作用。
+> - 副作用的来源：配置文件、用户的输入、数据库等等
+> - 所有的外部交互都有可能产生副作用，副作用会给程序带来安全隐患和不确定性，要尽可能的控制副作用在可控制的范围内发生。
+
+### 15.数据劫持？作用？如何使用？
+
+在使用或者设置某的对象的属性的时候，通过一系列的代码拦截此次的行为。即可以在赋值过程中添加一些操作或者修改返回的结果。
+
+双向绑定
+
+比较典型的是 `Object.defineProperty()` 和 ES2015 中新增的 `Proxy` 对象。
 
 五、Hooks 补充面试题
 
